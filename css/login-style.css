@@ -88,6 +88,55 @@ button{font-family:'Rajdhani',sans-serif;cursor:pointer;}
 .form-input::placeholder{
   color:rgba(136,146,176,.4);
 }
+
+/* Password Toggle */
+.password-input-wrapper{
+  position:relative;
+  display:flex;
+  align-items:center;
+}
+
+.password-input-wrapper .form-input{
+  padding-right:50px;
+}
+
+.password-toggle{
+  position:absolute;
+  right:0;
+  top:0;
+  bottom:0;
+  width:48px;
+  background:transparent;
+  border:none;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:all .3s ease;
+  border-radius:0 6px 6px 0;
+}
+
+.password-toggle:hover{
+  background:rgba(0,245,255,.08);
+}
+
+.password-toggle:active{
+  transform:scale(.95);
+}
+
+.password-toggle .eye-icon{
+  font-size:1.2rem;
+  opacity:.6;
+  transition:opacity .3s ease;
+}
+
+.password-toggle:hover .eye-icon{
+  opacity:1;
+}
+
+.password-toggle.visible .eye-icon{
+  opacity:.4;
+}
 .form-select{width:100%;background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.1);color:var(--text);padding:10px 14px;font-size:.9rem;outline:none;border-radius:2px;appearance:none;}
 .form-select:focus{border-color:var(--accent);}
 
