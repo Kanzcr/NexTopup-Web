@@ -14,6 +14,9 @@ const API = {
 // API Helper Functions
 async function apiRequest(url, options = {}) {
   try {
+    console.log('API Request to:', url);
+    console.log('Options:', options);
+    
     const response = await fetch(url, {
       ...options,
       headers: {
@@ -22,11 +25,26 @@ async function apiRequest(url, options = {}) {
       },
     });
     
-    const data = await response.json();
-    return data;
+    console.log('Response status:', response.status);
+    
+    // Get response as text first to see what we got
+    const text = await response.text();
+    console.log('Response text:', text);
+    
+    // Try to parse as JSON
+    try {
+      const data = JSON.parse(text);
+      console.log('Response data:', data);
+      return data;
+    } catch (e) {
+      console.error('JSON Parse Error:', e);
+      console.error('Response was:', text);
+      return { success: false, message: 'Server error: ' + text.substring(0, 100) };
+    }
   } catch (error) {
     console.error('API Error:', error);
-    return { success: false, message: 'Network error' };
+    console.error('URL was:', url);
+    return { success: false, message: 'Network error: ' + error.message };
   }
 }
 
