@@ -413,3 +413,112 @@ tbody tr:hover{background:rgba(255,255,255,.02);}
    USER MANAGEMENT
 ══════════════════════════════════════ */
 .user-row-ava{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent3));display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;}
+
+
+/* ══════════════════════════════════════
+   PAYMENT METHODS
+══════════════════════════════════════ */
+.payment-methods-list{
+  display:flex;
+  flex-direction:column;
+  gap:.75rem;
+  max-height:400px;
+  overflow-y:auto;
+}
+
+.payment-method{
+  display:flex;
+  align-items:center;
+  gap:1rem;
+  padding:1rem;
+  background:rgba(0,0,0,.2);
+  border:1px solid var(--border);
+  border-radius:4px;
+  cursor:pointer;
+  transition:all .3s ease;
+}
+
+.payment-method:hover{
+  border-color:rgba(0,245,255,.3);
+  background:rgba(0,245,255,.05);
+  transform:translateX(5px);
+}
+
+.payment-method.disabled{
+  opacity:.5;
+  cursor:not-allowed;
+}
+
+.payment-method.disabled:hover{
+  border-color:var(--border);
+  background:rgba(0,0,0,.2);
+  transform:none;
+}
+
+.pm-icon{
+  width:48px;
+  height:48px;
+  border-radius:8px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:1.5rem;
+  flex-shrink:0;
+}
+
+.pm-info{
+  flex:1;
+}
+
+.pm-name{
+  font-weight:600;
+  font-size:.9rem;
+  margin-bottom:.2rem;
+}
+
+.pm-desc{
+  font-size:.75rem;
+  color:var(--muted);
+}
+
+.pm-right{
+  text-align:right;
+}
+
+.pm-fee{
+  font-size:.7rem;
+  color:var(--orange);
+  margin-bottom:.2rem;
+}
+
+.pm-total{
+  font-family:'Orbitron';
+  font-size:.9rem;
+  font-weight:700;
+  color:var(--accent);
+}
+
+.pm-insufficient{
+  font-size:.7rem;
+  color:var(--accent2);
+  margin-top:.2rem;
+}
+
+.payment-qr{
+  text-align:center;
+  padding:1rem 0;
+}
+
+.payment-va{
+  text-align:center;
+  padding:1rem 0;
+}
+
+.payment-va ol{
+  text-align:left;
+  color:var(--text);
+}
+
+.payment-va ol li{
+  margin-bottom:.5rem;
+}

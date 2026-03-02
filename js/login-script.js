@@ -777,16 +777,237 @@ function processTopup(productId){
   if(!gameId){ showToast('error','Error','Masukkan ID Game / Email akun'); return; }
   const price = parseInt(selCard.dataset.price);
   const label = selCard.dataset.label;
-  if(currentUser.saldo < price){ showToast('error','Saldo Kurang',`Tambah saldo untuk melanjutkan`); return; }
   
-  // Deduct saldo
-  currentUser.saldo -= price;
-  const user = DB.users.find(u=>u.id===currentUser.id);
-  if(user) user.saldo = currentUser.saldo;
+  // Show payment method selection
+  closeModal();
+  openPaymentModal(productId, label, price, gameId);
+}
+
+// ═══════════════════════════════════════════════
+//  PAYMENT GATEWAY
+// ═══════════════════════════════════════════════
+const PAYMENT_METHODS = [
+  {id:'saldo', name:'Saldo NexTopUp', icon:'💰', color:'#00f5ff', fee:0, desc:'Bayar dengan saldo'},
+  {id:'gopay', name:'GoPay', icon:'💚', color:'#00AA13', fee:0, desc:'E-wallet GoPay'},
+  {id:'ovo', name:'OVO', icon:'🟣', color:'#4C3494', fee:0, desc:'E-wallet OVO'},
+  {id:'dana', name:'DANA', icon:'🔵', color:'#118EEA', fee:0, desc:'E-wallet DANA'},
+  {id:'qris', name:'QRIS', icon:'⚡', color:'#FF6B6B', fee:0, desc:'Scan QRIS semua e-wallet'},
+  {id:'bca', name:'BCA Virtual Account', icon:'🏦', color:'#0066AE', fee:4000, desc:'Transfer via BCA'},
+  {id:'mandiri', name:'Mandiri Virtual Account', icon:'🏦', color:'#003D79', fee:4000, desc:'Transfer via Mandiri'},
+  {id:'bni', name:'BNI Virtual Account', icon:'🏦', color:'#F47920', fee:4000, desc:'Transfer via BNI'},
+];
+
+function openPaymentModal(productId, label, price, gameId){
+  const p = DB.products.find(x=>x.id===productId);
+  
+  const paymentMethodsHtml = PAYMENT_METHODS.map(pm=>{
+    const totalPrice = price + pm.fee;
+    const canPay = pm.id === 'saldo' ? currentUser.saldo >= totalPrice : true;
+    const disabledClass = !canPay ? 'disabled' : '';
+    
+    return `
+      <div class="payment-method ${disabledClass}" onclick="${canPay ? `selectPaymentMethod('${pm.id}', ${productId}, '${label}', ${price}, '${gameId}')` : ''}" data-method="${pm.id}">
+        <div class="pm-icon" style="background:${pm.color}20;color:${pm.color}">${pm.icon}</div>
+        <div class="pm-info">
+          <div class="pm-name">${pm.name}</div>
+          <div class="pm-desc">${pm.desc}</div>
+        </div>
+        <div class="pm-right">
+          ${pm.fee > 0 ? `<div class="pm-fee">+Rp ${pm.fee.toLocaleString('id-ID')}</div>` : ''}
+          <div class="pm-total">Rp ${totalPrice.toLocaleString('id-ID')}</div>
+          ${!canPay ? '<div class="pm-insufficient">Saldo tidak cukup</div>' : ''}
+        </div>
+      </div>
+    `;
+  }).join('');
+  
+  openModal('💳 Pilih Metode Pembayaran', `
+    <div style="margin-bottom:1.5rem;padding:1rem;background:rgba(0,245,255,.05);border:1px solid rgba(0,245,255,.15);border-radius:4px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem;">
+        <span class="text-muted" style="font-size:.85rem;">Produk</span>
+        <span style="font-weight:600;">${p.name} ${label}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <span class="text-muted" style="font-size:.85rem;">Harga</span>
+        <span class="text-gold orb" style="font-size:1.1rem;font-weight:700;">Rp ${price.toLocaleString('id-ID')}</span>
+      </div>
+    </div>
+    
+    <div class="sl mb2">Metode Pembayaran</div>
+    <div class="payment-methods-list">
+      ${paymentMethodsHtml}
+    </div>
+    
+    <div style="margin-top:1rem;padding:.75rem;background:rgba(255,152,0,.08);border:1px solid rgba(255,152,0,.2);border-radius:4px;font-size:.82rem;color:var(--orange);">
+      ⚠️ Pilih metode pembayaran untuk melanjutkan transaksi
+    </div>
+  `, [
+    {label:'Batal', cls:'btn-secondary', action:'closeModal();openTopupModal('+productId+')'},
+  ]);
+  
+  document.getElementById('modalBox').classList.add('modal-lg');
+}
+
+function selectPaymentMethod(methodId, productId, label, price, gameId){
+  const method = PAYMENT_METHODS.find(m=>m.id===methodId);
+  const p = DB.products.find(x=>x.id===productId);
+  const totalPrice = price + method.fee;
+  
+  if(methodId === 'saldo'){
+    // Direct payment with saldo
+    if(currentUser.saldo < totalPrice){
+      showToast('error','Saldo Tidak Cukup','Silakan top up saldo terlebih dahulu');
+      return;
+    }
+    processPayment(methodId, productId, label, price, gameId, method.fee);
+  } else {
+    // Show payment instructions
+    showPaymentInstructions(methodId, productId, label, price, gameId, method);
+  }
+}
+
+function showPaymentInstructions(methodId, productId, label, price, gameId, method){
+  const p = DB.products.find(x=>x.id===productId);
+  const totalPrice = price + method.fee;
+  const orderId = `NTU-${String(orderCounter).padStart(8,'0')}`;
+  
+  let instructionsHtml = '';
+  
+  if(['gopay','ovo','dana'].includes(methodId)){
+    // E-wallet instructions
+    const phoneNumber = '081234567890';
+    instructionsHtml = `
+      <div class="payment-qr">
+        <div style="font-size:5rem;margin-bottom:1rem;">📱</div>
+        <div class="text-muted mb2">Scan QR Code dengan aplikasi ${method.name}</div>
+        <div style="width:200px;height:200px;background:rgba(255,255,255,.95);margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;border-radius:8px;">
+          <div style="font-size:3rem;">QR</div>
+        </div>
+        <div class="text-muted" style="font-size:.85rem;">Atau transfer ke: <strong>${phoneNumber}</strong></div>
+      </div>
+    `;
+  } else if(methodId === 'qris'){
+    // QRIS instructions
+    instructionsHtml = `
+      <div class="payment-qr">
+        <div style="font-size:5rem;margin-bottom:1rem;">⚡</div>
+        <div class="text-muted mb2">Scan QRIS dengan aplikasi e-wallet apapun</div>
+        <div style="width:220px;height:220px;background:rgba(255,255,255,.95);margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;border-radius:8px;border:2px solid var(--border);">
+          <div style="text-align:center;">
+            <div style="font-size:4rem;margin-bottom:.5rem;">⚡</div>
+            <div style="color:#000;font-size:.75rem;font-weight:600;">QRIS</div>
+          </div>
+        </div>
+        <div class="text-muted" style="font-size:.85rem;">GoPay, OVO, DANA, ShopeePay, LinkAja, dll</div>
+      </div>
+    `;
+  } else {
+    // Bank VA instructions
+    const vaNumber = `8808${String(currentUser.id).padStart(10,'0')}`;
+    instructionsHtml = `
+      <div class="payment-va">
+        <div style="font-size:4rem;margin-bottom:1rem;">🏦</div>
+        <div class="text-muted mb2">Transfer ke Virtual Account</div>
+        <div style="background:rgba(0,0,0,.3);border:1px solid var(--border);padding:1.5rem;border-radius:4px;margin-bottom:1rem;">
+          <div class="text-muted" style="font-size:.75rem;margin-bottom:.5rem;">Nomor Virtual Account</div>
+          <div class="orb" style="font-size:1.5rem;font-weight:700;color:var(--accent);letter-spacing:2px;">${vaNumber}</div>
+          <button class="btn btn-secondary btn-sm mt2" onclick="copyToClipboard('${vaNumber}')">📋 Copy</button>
+        </div>
+        <div style="text-align:left;font-size:.85rem;">
+          <div class="text-muted mb1">Cara Transfer:</div>
+          <ol style="margin-left:1.2rem;line-height:1.8;">
+            <li>Buka aplikasi ${method.name}</li>
+            <li>Pilih Transfer > Virtual Account</li>
+            <li>Masukkan nomor VA di atas</li>
+            <li>Masukkan nominal: <strong>Rp ${totalPrice.toLocaleString('id-ID')}</strong></li>
+            <li>Konfirmasi pembayaran</li>
+          </ol>
+        </div>
+      </div>
+    `;
+  }
+  
+  closeModal();
+  openModal(`💳 ${method.name}`, `
+    <div style="margin-bottom:1.5rem;padding:1rem;background:rgba(0,245,255,.05);border:1px solid rgba(0,245,255,.15);border-radius:4px;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:.5rem;">
+        <span class="text-muted">Order ID</span>
+        <span class="text-accent orb" style="font-size:.85rem;">${orderId}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:.5rem;">
+        <span class="text-muted">Produk</span>
+        <span>${p.name} ${label}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:.5rem;">
+        <span class="text-muted">Harga</span>
+        <span>Rp ${price.toLocaleString('id-ID')}</span>
+      </div>
+      ${method.fee > 0 ? `<div style="display:flex;justify-content:space-between;margin-bottom:.5rem;">
+        <span class="text-muted">Biaya Admin</span>
+        <span>Rp ${method.fee.toLocaleString('id-ID')}</span>
+      </div>` : ''}
+      <div style="border-top:1px solid var(--border);margin-top:.5rem;padding-top:.5rem;display:flex;justify-content:space-between;">
+        <span class="text-muted orb">TOTAL</span>
+        <span class="text-gold orb" style="font-size:1.2rem;font-weight:700;">Rp ${totalPrice.toLocaleString('id-ID')}</span>
+      </div>
+    </div>
+    
+    ${instructionsHtml}
+    
+    <div style="margin-top:1.5rem;padding:.75rem;background:rgba(255,152,0,.08);border:1px solid rgba(255,152,0,.2);border-radius:4px;font-size:.82rem;color:var(--orange);">
+      ⏱️ Selesaikan pembayaran dalam 24 jam
+    </div>
+  `, [
+    {label:'Batal', cls:'btn-secondary', action:'closeModal()'},
+    {label:'✅ Saya Sudah Bayar', cls:'btn-primary', action:`confirmPayment('${methodId}', ${productId}, '${label}', ${price}, '${gameId}', ${method.fee})`},
+  ]);
+  
+  document.getElementById('modalBox').classList.add('modal-lg');
+}
+
+function copyToClipboard(text){
+  navigator.clipboard.writeText(text).then(()=>{
+    showToast('success','Copied!','Nomor VA berhasil dicopy');
+  }).catch(()=>{
+    showToast('error','Error','Gagal copy nomor VA');
+  });
+}
+
+function confirmPayment(methodId, productId, label, price, gameId, fee){
+  // Simulate payment verification
+  showToast('info','Memproses...','Memverifikasi pembayaran Anda');
+  
+  setTimeout(()=>{
+    processPayment(methodId, productId, label, price, gameId, fee);
+  }, 1500);
+}
+
+function processPayment(methodId, productId, label, price, gameId, fee){
+  const p = DB.products.find(x=>x.id===productId);
+  const totalPrice = price + fee;
+  const method = PAYMENT_METHODS.find(m=>m.id===methodId);
+  
+  // Deduct saldo only if payment method is saldo
+  if(methodId === 'saldo'){
+    currentUser.saldo -= totalPrice;
+    const user = DB.users.find(u=>u.id===currentUser.id);
+    if(user) user.saldo = currentUser.saldo;
+  }
   
   // Create order
   const orderId = `NTU-${String(orderCounter++).padStart(8,'0')}`;
-  const newOrder = {id:orderId, userId:currentUser.id, product:p.name, option:label, amount:price, status:'success', date:new Date().toISOString().slice(0,10), gameId};
+  const newOrder = {
+    id:orderId, 
+    userId:currentUser.id, 
+    product:p.name, 
+    option:label, 
+    amount:totalPrice, 
+    status:'success', 
+    date:new Date().toISOString().slice(0,10), 
+    gameId,
+    paymentMethod: method.name,
+    paymentFee: fee
+  };
   DB.orders.push(newOrder);
   
   // Notification
@@ -800,23 +1021,24 @@ function processTopup(productId){
   DB.notifications[1] = adminNotifs;
   
   closeModal();
-  openModal('✅ Transaksi Berhasil!', `
+  openModal('✅ Pembayaran Berhasil!', `
     <div style="text-align:center;padding:1rem 0;">
-      <div style="font-size:4rem;margin-bottom:1rem;animation:mshow .4s ease;">${p.icon}</div>
-      <div class="text-green orb" style="font-size:1.1rem;font-weight:700;margin-bottom:.4rem;">Top Up Berhasil!</div>
-      <p class="text-muted">${p.name} ${label} telah dikirim ke akunmu.</p>
+      <div style="font-size:4rem;margin-bottom:1rem;animation:mshow .4s ease;">✅</div>
+      <div class="text-green orb" style="font-size:1.1rem;font-weight:700;margin-bottom:.4rem;">Pembayaran Berhasil!</div>
+      <p class="text-muted">${p.name} ${label} sedang diproses</p>
       <div style="background:rgba(0,0,0,.2);border:1px solid var(--border);padding:1rem;margin-top:1.2rem;text-align:left;">
         <div style="display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:.3rem;"><span class="text-muted">Order ID</span><span class="text-accent orb" style="font-size:.78rem">${orderId}</span></div>
         <div style="display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:.3rem;"><span class="text-muted">Produk</span><span>${p.name} ${label}</span></div>
-        <div style="display:flex;justify-content:space-between;font-size:.85rem;"><span class="text-muted">Total Dibayar</span><span class="text-gold orb">Rp ${price.toLocaleString('id-ID')}</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:.3rem;"><span class="text-muted">Metode</span><span>${method.name}</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:.85rem;"><span class="text-muted">Total Dibayar</span><span class="text-gold orb">Rp ${totalPrice.toLocaleString('id-ID')}</span></div>
       </div>
-      <div style="margin-top:.8rem;font-size:.82rem;color:var(--muted);">Saldo tersisa: <span class="text-gold orb">Rp ${currentUser.saldo.toLocaleString('id-ID')}</span></div>
+      ${methodId === 'saldo' ? `<div style="margin-top:.8rem;font-size:.82rem;color:var(--muted);">Saldo tersisa: <span class="text-gold orb">Rp ${currentUser.saldo.toLocaleString('id-ID')}</span></div>` : ''}
     </div>
   `, [{label:'Selesai', cls:'btn-primary', action:'closeModal();renderStore()'}]);
   
   // Update sidebar saldo display if visible
   renderNotifs();
-  showToast('success','Berhasil!',`${p.name} ${label} berhasil diproses`);
+  showToast('success','Berhasil!',`Pembayaran ${method.name} berhasil diproses`);
 }
 
 // ═══════════════════════════════════════════════
@@ -855,7 +1077,7 @@ function renderHistoryRows(orders){
       <td class="text-accent orb" style="font-size:.72rem">${o.id}</td>
       <td><div style="font-weight:600">${o.product}</div><div class="text-muted" style="font-size:.75rem">${o.option} · ${o.gameId}</div></td>
       <td class="text-gold orb" style="font-size:.82rem">Rp ${o.amount.toLocaleString('id-ID')}</td>
-      <td class="text-muted" style="font-size:.82rem">Saldo</td>
+      <td class="text-muted" style="font-size:.82rem">${o.paymentMethod || 'Saldo'}</td>
       <td>${statusBadge(o.status)}</td>
       <td class="text-muted">${o.date}</td>
     </tr>`).join('')}
