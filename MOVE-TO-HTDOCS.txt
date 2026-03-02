@@ -1,0 +1,28 @@
+CARA PINDAHKAN PROJECT KE XAMPP HTDOCS
+========================================
+
+OPSI 1: Manual (Paling Mudah)
+------------------------------
+1. Buka File Explorer
+2. Copy seluruh folder "NexTopup-Web" ini
+3. Paste ke: C:\xampp\htdocs\
+4. Setelah selesai, akses: http://localhost/NexTopup-Web/setup.php
+
+OPSI 2: Via Command (Copy saja command di bawah ke PowerShell)
+---------------------------------------------------------------
+Copy-Item -Path "C:\Users\kanzf\OneDrive\文档\NexTopup-Web" -Destination "C:\xampp\htdocs\" -Recurse -Force
+
+SETELAH COPY:
+-------------
+1. Buka browser
+2. Akses: http://localhost/NexTopup-Web/setup.php
+3. Password akan otomatis di-setup
+4. Login dengan:
+   - Admin: admin@nextopup.id / admin123
+   - Customer: budi@gmail.com / user123
+
+TROUBLESHOOTING:
+----------------
+- Jika masih error 404, pastikan Apache di XAMPP sudah running
+- Cek folder di C:\xampp\htdocs\ apakah folder NexTopup-Web sudah ada
+- Pastikan nama folder persis "NexTopup-Web" (case sensitive)

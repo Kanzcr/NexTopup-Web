@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test API</title>
+    <style>
+        body { font-family: Arial; padding: 20px; background: #1a1a2e; color: #fff; }
+        button { padding: 10px 20px; margin: 10px; cursor: pointer; }
+        pre { background: #0f0f1e; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        .success { color: #00ff00; }
+        .error { color: #ff0000; }
+    </style>
+</head>
+<body>
+    <h1>🧪 NexTopUp API Test</h1>
+    
+    <h2>Test 1: Check API Connection</h2>
+    <button onclick="testConnection()">Test Connection</button>
+    <pre id="result1"></pre>
+    
+    <h2>Test 2: Test Login</h2>
+    <button onclick="testLogin()">Test Login (admin)</button>
+    <pre id="result2"></pre>
+    
+    <h2>Test 3: Get Products</h2>
+    <button onclick="testProducts()">Get Products</button>
+    <pre id="result3"></pre>
+
+    <script>
+        const API_BASE = 'http://localhost/NexTopup-Web/api';
+        
+        async function testConnection() {
+            const result = document.getElementById('result1');
+            result.innerHTML = 'Testing...';
+            
+            try {
+                const response = await fetch(API_BASE + '/test.php');
+                const text = await response.text();
+                result.innerHTML = '<span class="success">✅ Response:</span>\n' + text;
+            } catch (error) {
+                result.innerHTML = '<span class="error">❌ Error:</span>\n' + error.message;
+            }
+        }
+        
+        async function testLogin() {
+            const result = document.getElementById('result2');
+            result.innerHTML = 'Testing login...';
+            
+            try {
+                const response = await fetch(API_BASE + '/auth.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        action: 'login',
+                        email: 'admin@nextopup.id',
+                        password: 'admin123'
+                    })
+                });
+                
+                const text = await response.text();
+                console.log('Raw response:', text);
+                
+                try {
+                    const data = JSON.parse(text);
+                    result.innerHTML = '<span class="success">✅ Login Response:</span>\n' + JSON.stringify(data, null, 2);
+                } catch (e) {
+                    result.innerHTML = '<span class="error">❌ Invalid JSON Response:</span>\n' + text;
+                }
+            } catch (error) {
+                result.innerHTML = '<span class="error">❌ Error:</span>\n' + error.message;
+            }
+        }
+        
+        async function testProducts() {
+            const result = document.getElementById('result3');
+            result.innerHTML = 'Loading products...';
+            
+            try {
+                const response = await fetch(API_BASE + '/products.php');
+                const text = await response.text();
+                
+                try {
+                    const data = JSON.parse(text);
+                    result.innerHTML = '<span class="success">✅ Products:</span>\n' + JSON.stringify(data, null, 2);
+                } catch (e) {
+                    result.innerHTML = '<span class="error">❌ Invalid JSON Response:</span>\n' + text;
+                }
+            } catch (error) {
+                result.innerHTML = '<span class="error">❌ Error:</span>\n' + error.message;
+            }
+        }
+    </script>
+</body>
+</html>
