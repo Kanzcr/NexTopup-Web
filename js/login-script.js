@@ -97,28 +97,13 @@ async function doLogin(){
     return;
   }
   
-<<<<<<< HEAD
-  // Call API
-  showLoading('Memproses login...');
-  const response = await apiPost(API.auth, {
-    action: 'login',
-    email: email,
-    password: pass
-  });
-  hideLoading();
-  
-  if(response.success){ 
-    currentUser = response.data;
-    showToast('success', 'Login Berhasil!', `Selamat datang ${currentUser.name}`);
-    setTimeout(() => initApp(), 500);
-  } else {
-    showToast('error','Login Gagal', response.message);
-=======
   // Show simple loading
-  const btn = document.querySelector('.auth-btn');
-  const originalText = btn.textContent;
-  btn.textContent = 'Loading...';
-  btn.disabled = true;
+  const btn = document.querySelector('#login-btn');
+  if (btn) {
+    const originalText = btn.textContent;
+    btn.textContent = 'Loading...';
+    btn.disabled = true;
+  }
   
   try {
     // Call API
@@ -128,8 +113,10 @@ async function doLogin(){
       password: pass
     });
     
-    btn.textContent = originalText;
-    btn.disabled = false;
+    if (btn) {
+      btn.textContent = '⚡ Masuk Sekarang';
+      btn.disabled = false;
+    }
     
     if(response.success){ 
       currentUser = response.data;
@@ -139,10 +126,11 @@ async function doLogin(){
       showToast('error','Login Gagal', response.message);
     }
   } catch (error) {
-    btn.textContent = originalText;
-    btn.disabled = false;
+    if (btn) {
+      btn.textContent = '⚡ Masuk Sekarang';
+      btn.disabled = false;
+    }
     showToast('error','Error', 'Terjadi kesalahan: ' + error.message);
->>>>>>> 236b6147d73d493ea44e5ccb5851153366a87166
   }
 }
 
