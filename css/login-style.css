@@ -62,28 +62,38 @@ button{font-family:'Rajdhani',sans-serif;cursor:pointer;}
 .form-group label{display:block;font-size:.78rem;font-weight:600;letter-spacing:.5px;margin-bottom:.4rem;color:var(--muted);text-transform:uppercase;}
 .form-input{
   width:100%;
-  background:rgba(0,0,0,.3);
-  border:1px solid rgba(255,255,255,.1);
+  background:rgba(0,0,0,.4);
+  border:1px solid rgba(255,255,255,.08);
   color:var(--text);
-  padding:10px 14px;
+  padding:12px 16px;
   font-size:.95rem;
   outline:none;
   transition:all .3s ease;
-  border-radius:2px;
+  border-radius:6px;
 }
+
 .form-input:focus{
   border-color:var(--accent);
-  background:rgba(0,0,0,.4);
-  box-shadow:0 0 0 3px rgba(0,245,255,.1);
+  background:rgba(0,0,0,.5);
+  box-shadow:
+    0 0 0 3px rgba(0,245,255,.1),
+    0 4px 12px rgba(0,245,255,.15);
   transform:translateY(-1px);
 }
-.form-input::placeholder{color:rgba(136,146,176,.45);}
+
+.form-input:hover{
+  border-color:rgba(0,245,255,.15);
+}
+
+.form-input::placeholder{
+  color:rgba(136,146,176,.4);
+}
 .form-select{width:100%;background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.1);color:var(--text);padding:10px 14px;font-size:.9rem;outline:none;border-radius:2px;appearance:none;}
 .form-select:focus{border-color:var(--accent);}
 
 /* ── BUTTONS ── */
 .btn{
-  padding:10px 22px;
+  padding:12px 24px;
   font-weight:700;
   font-size:.88rem;
   letter-spacing:1px;
@@ -92,11 +102,14 @@ button{font-family:'Rajdhani',sans-serif;cursor:pointer;}
   transition:all .3s ease;
   display:inline-flex;
   align-items:center;
+  justify-content:center;
   gap:.5rem;
   cursor:pointer;
   position:relative;
   overflow:hidden;
+  border-radius:6px;
 }
+
 .btn::before{
   content:'';
   position:absolute;
@@ -109,22 +122,29 @@ button{font-family:'Rajdhani',sans-serif;cursor:pointer;}
   transform:translate(-50%,-50%);
   transition:width .6s ease, height .6s ease;
 }
+
 .btn:active::before{
   width:300px;
   height:300px;
 }
+
 .btn-primary{
-  background:linear-gradient(135deg,var(--accent),var(--accent3));
+  background:linear-gradient(135deg, var(--accent), var(--accent3));
   color:#000;
-  border-radius:2px;
   cursor:pointer;
-  box-shadow:0 4px 15px rgba(0,245,255,.2);
+  box-shadow:
+    0 4px 15px rgba(0,245,255,.3),
+    0 0 30px rgba(0,245,255,.1);
+  font-weight:800;
 }
+
 .btn-primary:hover{
-  opacity:.88;
   transform:translateY(-2px);
-  box-shadow:0 6px 20px rgba(0,245,255,.3);
+  box-shadow:
+    0 6px 20px rgba(0,245,255,.4),
+    0 0 40px rgba(0,245,255,.2);
 }
+
 .btn-primary:active{
   transform:translateY(0);
 }
@@ -140,74 +160,248 @@ button{font-family:'Rajdhani',sans-serif;cursor:pointer;}
    AUTH PAGE
 ══════════════════════════════════════ */
 #page-auth{
-  display:flex;align-items:center;justify-content:center;
-  min-height:100vh;padding:2rem;
-  background:radial-gradient(ellipse 70% 60% at 80% 40%,rgba(123,47,255,.18) 0%,transparent 65%),
-             radial-gradient(ellipse 50% 50% at 10% 60%,rgba(0,245,255,.1) 0%,transparent 55%);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:100vh;
+  padding:2rem;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(123,47,255,.25) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 50% at 0% 50%, rgba(0,245,255,.15) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 50% at 100% 50%, rgba(255,45,120,.15) 0%, transparent 50%),
+    radial-gradient(ellipse 100% 100% at 50% 100%, rgba(0,245,255,.08) 0%, transparent 50%),
+    var(--bg);
   position:relative;
+  overflow:hidden;
 }
-#page-auth::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(0,245,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,255,.025) 1px,transparent 1px);background-size:50px 50px;pointer-events:none;z-index:0;}
+
+#page-auth::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background-image:
+    linear-gradient(rgba(0,245,255,.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,245,255,.02) 1px, transparent 1px);
+  background-size:50px 50px;
+  pointer-events:none;
+  z-index:0;
+  animation:gridMove 20s linear infinite;
+}
+
+@keyframes gridMove{
+  0%{transform:translate(0,0);}
+  100%{transform:translate(50px,50px);}
+}
+
+#page-auth::after{
+  content:'';
+  position:absolute;
+  width:500px;
+  height:500px;
+  background:radial-gradient(circle, rgba(0,245,255,.1) 0%, transparent 70%);
+  border-radius:50%;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  animation:pulse 8s ease-in-out infinite;
+  pointer-events:none;
+  z-index:0;
+}
+
+@keyframes pulse{
+  0%, 100%{transform:translate(-50%,-50%) scale(1); opacity:.3;}
+  50%{transform:translate(-50%,-50%) scale(1.2); opacity:.5;}
+}
 .auth-box{
-  width:100%;max-width:440px;position:relative;z-index:1;
-  background:var(--panel2);border:1px solid rgba(0,245,255,.15);padding:2.5rem;
-  animation:authBoxIn .6s ease;
-  box-shadow:0 20px 60px rgba(0,0,0,.5);
+  width:100%;
+  max-width:480px;
+  position:relative;
+  z-index:1;
+  background:rgba(10,15,30,.85);
+  backdrop-filter:blur(20px);
+  border:1px solid rgba(0,245,255,.2);
+  padding:3rem 2.5rem;
+  border-radius:12px;
+  box-shadow:
+    0 20px 60px rgba(0,0,0,.5),
+    0 0 100px rgba(0,245,255,.1),
+    inset 0 1px 0 rgba(255,255,255,.1);
+  animation:authBoxIn .8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.auth-box::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  border-radius:12px;
+  padding:2px;
+  background:linear-gradient(135deg, rgba(0,245,255,.3), rgba(123,47,255,.3), rgba(255,45,120,.3));
+  -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;
+  mask-composite:exclude;
+  opacity:.5;
+  pointer-events:none;
 }
 
 @keyframes authBoxIn{
   from{
     opacity:0;
-    transform:translateY(30px) scale(.95);
+    transform:translateY(40px) scale(.9);
   }
   to{
     opacity:1;
     transform:translateY(0) scale(1);
   }
 }
-.auth-logo{font-family:'Orbitron';font-size:1.8rem;font-weight:900;color:var(--accent);text-shadow:var(--glow);letter-spacing:2px;text-align:center;margin-bottom:.3rem;}
-.auth-logo span{color:var(--accent2);}
-.auth-sub{text-align:center;color:var(--muted);font-size:.88rem;margin-bottom:2rem;}
-.auth-tabs{display:flex;margin-bottom:2rem;border-bottom:1px solid var(--border);}
-.auth-tab{flex:1;padding:.8rem;text-align:center;cursor:pointer;font-weight:700;font-size:.85rem;letter-spacing:1px;text-transform:uppercase;color:var(--muted);transition:all .2s;border-bottom:2px solid transparent;margin-bottom:-1px;}
-.auth-tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+.auth-logo{
+  font-family:'Orbitron';
+  font-size:2.2rem;
+  font-weight:900;
+  background:linear-gradient(135deg, var(--accent), var(--accent3), var(--accent2));
+  background-clip:text;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  text-align:center;
+  margin-bottom:.5rem;
+  letter-spacing:3px;
+  animation:logoGlow 3s ease-in-out infinite;
+}
+
+@keyframes logoGlow{
+  0%, 100%{filter:drop-shadow(0 0 10px rgba(0,245,255,.3));}
+  50%{filter:drop-shadow(0 0 20px rgba(0,245,255,.6));}
+}
+
+.auth-logo span{
+  background:linear-gradient(135deg, var(--accent2), var(--accent3));
+  background-clip:text;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.auth-sub{
+  text-align:center;
+  color:var(--muted);
+  font-size:.9rem;
+  margin-bottom:2.5rem;
+  font-weight:300;
+  letter-spacing:.5px;
+}
+.auth-tabs{
+  display:flex;
+  margin-bottom:2rem;
+  border-bottom:2px solid rgba(255,255,255,.05);
+  gap:.5rem;
+}
+
+.auth-tab{
+  flex:1;
+  padding:1rem;
+  text-align:center;
+  cursor:pointer;
+  font-weight:700;
+  font-size:.85rem;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  color:var(--muted);
+  transition:all .3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-bottom:3px solid transparent;
+  margin-bottom:-2px;
+  position:relative;
+  background:transparent;
+}
+
+.auth-tab::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg, rgba(0,245,255,.05), rgba(123,47,255,.05));
+  opacity:0;
+  transition:opacity .3s ease;
+  border-radius:4px 4px 0 0;
+}
+
+.auth-tab:hover::before{
+  opacity:1;
+}
+
+.auth-tab.active{
+  color:var(--accent);
+  border-bottom-color:var(--accent);
+  background:rgba(0,245,255,.05);
+}
+
+.auth-tab.active::before{
+  opacity:1;
+}
 .auth-form{display:none;}
 .auth-form.active{display:block;}
-.auth-divider{text-align:center;color:var(--muted);font-size:.78rem;margin:1rem 0;position:relative;}
-.auth-divider::before,.auth-divider::after{content:'';position:absolute;top:50%;width:40%;height:1px;background:var(--border);}
-.auth-divider::before{left:0;}.auth-divider::after{right:0;}
+.auth-divider{
+  text-align:center;
+  color:var(--muted);
+  font-size:.78rem;
+  margin:2rem 0 1.5rem;
+  position:relative;
+  font-weight:500;
+  letter-spacing:.5px;
+}
+
+.auth-divider::before,
+.auth-divider::after{
+  content:'';
+  position:absolute;
+  top:50%;
+  width:calc(50% - 60px);
+  height:1px;
+  background:linear-gradient(to right, transparent, rgba(0,245,255,.2), transparent);
+}
+
+.auth-divider::before{left:0;}
+.auth-divider::after{right:0;}
 .demo-accounts{display:flex;flex-direction:column;gap:.5rem;}
 .demo-btn{
-  background:rgba(0,0,0,.2);
-  border:1px solid var(--border);
-  padding:.7rem 1rem;
+  background:rgba(0,0,0,.3);
+  border:1px solid rgba(255,255,255,.08);
+  padding:.85rem 1.2rem;
   text-align:left;
   color:var(--muted);
   font-size:.82rem;
   transition:all .3s ease;
   position:relative;
   overflow:hidden;
+  border-radius:6px;
 }
+
 .demo-btn::before{
   content:'';
   position:absolute;
   left:0;
   top:0;
   height:100%;
-  width:3px;
-  background:var(--accent);
+  width:4px;
+  background:linear-gradient(180deg, var(--accent), var(--accent3));
   transform:scaleY(0);
   transition:transform .3s ease;
 }
+
 .demo-btn:hover{
   border-color:rgba(0,245,255,.3);
   color:var(--text);
-  background:rgba(0,245,255,.05);
-  transform:translateX(5px);
+  background:rgba(0,245,255,.08);
+  transform:translateX(8px);
+  box-shadow:0 4px 12px rgba(0,245,255,.15);
 }
+
 .demo-btn:hover::before{
   transform:scaleY(1);
 }
-.demo-btn strong{color:var(--accent);font-family:'Orbitron';font-size:.72rem;}
+
+.demo-btn strong{
+  color:var(--accent);
+  font-family:'Orbitron';
+  font-size:.72rem;
+  display:block;
+  margin-bottom:.2rem;
+}
 
 /* ══════════════════════════════════════
    LAYOUT SHELL (post-login)
