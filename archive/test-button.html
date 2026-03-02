@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test Button</title>
+<style>
+body {
+  background: #050810;
+  color: #e8eaf6;
+  font-family: Arial, sans-serif;
+  padding: 2rem;
+}
+.test-btn {
+  padding: 10px 22px;
+  font-weight: 700;
+  font-size: .88rem;
+  background: linear-gradient(135deg, #00f5ff, #7b2fff);
+  color: #000;
+  border: none;
+  cursor: pointer;
+}
+.result {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.2);
+}
+</style>
+</head>
+<body>
+<h1>Test Login Button</h1>
+<p>Klik tombol di bawah untuk test apakah onclick berfungsi:</p>
+
+<button class="test-btn" onclick="testClick()">⚡ Test Button</button>
+
+<div class="result" id="result">Belum diklik</div>
+
+<hr style="margin: 2rem 0; border-color: rgba(255,255,255,.2);">
+
+<h2>Test Login Function</h2>
+<input type="email" id="test-email" placeholder="Email" value="admin@nextopup.id" style="padding: 8px; margin-right: 10px;">
+<input type="password" id="test-pass" placeholder="Password" value="admin123" style="padding: 8px; margin-right: 10px;">
+<button class="test-btn" onclick="testLogin()">Login</button>
+
+<div class="result" id="login-result">Belum login</div>
+
+<script>
+function testClick() {
+  document.getElementById('result').innerHTML = '✅ Button berhasil diklik! Onclick berfungsi dengan baik.';
+  console.log('Button clicked successfully');
+}
+
+// Copy database dari login-script.js
+const DB = {
+  users: [
+    {id:1, name:'Admin NexTopUp', email:'admin@nextopup.id', pass:'admin123', role:'admin'},
+    {id:2, name:'Budi Santoso', email:'budi@gmail.com', pass:'user123', role:'customer'},
+  ]
+};
+
+function testLogin() {
+  const email = document.getElementById('test-email').value.trim();
+  const pass = document.getElementById('test-pass').value;
+  
+  console.log('Testing login with:', email, pass);
+  
+  const user = DB.users.find(u => u.email === email && u.pass === pass);
+  
+  if (!user) {
+    document.getElementById('login-result').innerHTML = '❌ Login gagal: Email atau password salah';
+    console.log('Login failed');
+  } else {
+    document.getElementById('login-result').innerHTML = `✅ Login berhasil! Welcome ${user.name} (${user.role})`;
+    console.log('Login success:', user);
+  }
+}
+</script>
+</body>
+</html>

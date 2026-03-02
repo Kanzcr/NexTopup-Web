@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NexTopUp — Top Up Games & App Premium</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div id="particles"></div>
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">▲</button>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">NEX<span>TOP</span>UP</div>
+  <ul class="nav-links">
+    <li><a href="#categories">Kategori</a></li>
+    <li><a href="#products">Produk</a></li>
+    <li><a href="#process">Cara Top Up</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="cart-btn" onclick="openCart()" title="Keranjang">🛒<span class="cart-count" id="cartCount">0</span></button>
+    <button class="btn-nav" onclick="openModal()">Checkout</button>
+    <div class="hamburger" id="hamburger" onclick="toggleNav()"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+<div class="mobile-nav" id="mobileNav">
+  <a href="#categories" onclick="toggleNav()">Kategori</a>
+  <a href="#products" onclick="toggleNav()">Produk</a>
+  <a href="#process" onclick="toggleNav()">Cara Top Up</a>
+  <a href="#faq" onclick="toggleNav()">FAQ</a>
+  <button class="btn-primary" onclick="openCart();toggleNav()">🛒 Keranjang</button>
+</div>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span>⚡ Promo Hari Ini — Bonus <b>10% Diamond</b> Mobile Legends</span>
+    <span>🔥 Free Fire: Bonus <b>50 Diamond</b> pembelian &gt; 100 Diamond</span>
+    <span>🎬 Netflix Premium mulai <b>Rp 35.000</b>/bulan</span>
+    <span>✅ Proses <b>Otomatis 24/7</b> — Item instan dalam 30 detik</span>
+    <span>🎮 PUBG Mobile UC — Promo <b>Disc 15%</b> hari ini saja!</span>
+    <span>⚡ Promo Hari Ini — Bonus <b>10% Diamond</b> Mobile Legends</span>
+    <span>🔥 Free Fire: Bonus <b>50 Diamond</b> pembelian &gt; 100 Diamond</span>
+    <span>🎬 Netflix Premium mulai <b>Rp 35.000</b>/bulan</span>
+    <span>✅ Proses <b>Otomatis 24/7</b> — Item instan dalam 30 detik</span>
+    <span>🎮 PUBG Mobile UC — Promo <b>Disc 15%</b> hari ini saja!</span>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-badge">⚡ Platform Top Up #1 Indonesia</div>
+    <h1>
+      <div class="l1">Top Up Games &</div>
+      <div class="l2">App Premium</div>
+      <div class="l1">Instan & Aman</div>
+    </h1>
+    <p>Diamond, koin, voucher, dan langganan premium — semua tersedia. Proses otomatis dalam hitungan detik, harga paling kompetitif.</p>
+    <div class="hero-cta">
+      <button class="btn-primary" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">🚀 Top Up Sekarang</button>
+      <button class="btn-secondary" onclick="document.getElementById('categories').scrollIntoView({behavior:'smooth'})">Lihat Semua Produk</button>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item"><span class="stat-num" data-target="2500000">0</span><span class="stat-label">Pengguna Aktif</span></div>
+      <div class="stat-sep"></div>
+      <div class="stat-item"><span class="stat-num" data-target="500">0</span><span class="stat-label">Produk Tersedia</span></div>
+      <div class="stat-sep"></div>
+      <div class="stat-item"><span class="stat-num" data-pct="99.9">0</span><span class="stat-label">Sukses Rate</span></div>
+    </div>
+    <div class="trust-badges">
+      <div class="trust-badge"><em>✓</em> SSL Secured</div>
+      <div class="trust-badge"><em>✓</em> 24/7 CS Support</div>
+      <div class="trust-badge"><em>✓</em> Money-Back Guarantee</div>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="float-card"><div class="card-icon" style="background:rgba(255,165,0,.15)">🎮</div><div class="card-info"><h4>Mobile Legends</h4><p>86 Diamond</p><div class="card-price">Rp 15.500</div></div></div>
+    <div class="float-card"><div class="card-icon" style="background:rgba(255,45,120,.12)">📺</div><div class="card-info"><h4>Netflix Premium</h4><p>1 Bulan</p><div class="card-price">Rp 35.000</div></div></div>
+    <div class="float-card"><div class="card-icon" style="background:rgba(0,200,80,.12)">🎵</div><div class="card-info"><h4>Spotify Premium</h4><p>1 Bulan</p><div class="card-price">Rp 12.500</div></div></div>
+    <div class="float-card"><div class="card-icon" style="background:rgba(0,245,255,.1)">💎</div><div class="card-info"><h4>Free Fire</h4><p>100 Diamond</p><div class="card-price">Rp 14.000</div></div></div>
+  </div>
+</section>
+
+<!-- SEARCH -->
+<div class="search-section">
+  <div class="search-wrap">
+    <input type="text" class="search-input" id="searchInput" placeholder="🔍  Cari game atau aplikasi... (mis: Mobile Legends, Spotify)" oninput="doSearch()">
+  </div>
+</div>
+
+<!-- CATEGORIES -->
+<section class="categories" id="categories">
+  <div class="categories-header">
+    <div class="sl">// Kategori</div>
+    <h2 class="st">Semua <span>Kategori</span></h2>
+    <p>Temukan semua kebutuhan game dan aplikasi premium kamu di sini</p>
+  </div>
+  <div class="cat-grid">
+    <div class="cat-card ac" onclick="filterCat(this,'all')"><span class="cat-icon">🎯</span><div class="cat-name">Semua</div><div class="cat-count">60+ produk</div></div>
+    <div class="cat-card" onclick="filterCat(this,'moba')"><span class="cat-icon">⚔️</span><div class="cat-name">MOBA</div><div class="cat-count">24 produk</div></div>
+    <div class="cat-card" onclick="filterCat(this,'br')"><span class="cat-icon">🔫</span><div class="cat-name">Battle Royale</div><div class="cat-count">18 produk</div></div>
+    <div class="cat-card" onclick="filterCat(this,'rpg')"><span class="cat-icon">⭐</span><div class="cat-name">RPG</div><div class="cat-count">20 produk</div></div>
+    <div class="cat-card" onclick="filterCat(this,'streaming')"><span class="cat-icon">📺</span><div class="cat-name">Streaming</div><div class="cat-count">8 produk</div></div>
+    <div class="cat-card" onclick="filterCat(this,'musik')"><span class="cat-icon">🎵</span><div class="cat-name">Musik</div><div class="cat-count">6 produk</div></div>
+    <div class="cat-card" onclick="filterCat(this,'cloud')"><span class="cat-icon">☁️</span><div class="cat-name">Cloud & Tools</div><div class="cat-count">12 produk</div></div>
+    <div class="cat-card" onclick="filterCat(this,'sports')"><span class="cat-icon">⚽</span><div class="cat-name">Sports</div><div class="cat-count">10 produk</div></div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="products" id="products">
+  <div class="products-header">
+    <div><div class="sl">// Produk</div><h2 class="st">Pilihan <span>Terpopuler</span></h2></div>
+    <div class="filter-tabs">
+      <button class="tab active" onclick="sortCards(this,'popular')">Terpopuler</button>
+      <button class="tab" onclick="sortCards(this,'cheap')">Termurah</button>
+      <button class="tab" onclick="sortCards(this,'promo')">Promo</button>
+    </div>
+  </div>
+  <div class="products-grid" id="productsGrid">
+
+    <div class="product-card" data-cat="moba" data-name="mobile legends" data-price="15500" data-promo="1">
+      <div class="pbadge">🔥 Terlaris</div>
+      <div class="product-thumb" style="background:linear-gradient(135deg,#120830,#231060)">🎮</div>
+      <div class="product-body">
+        <div class="product-name">Mobile Legends</div><div class="product-cat">MOBA · Moonton</div>
+        <div class="product-options">
+          <button class="opt-btn sel" onclick="selOpt(this,'Rp 15.500',15500)">86 💎</button>
+          <button class="opt-btn" onclick="selOpt(this,'Rp 29.000',29000)">172 💎</button>
+          <button class="opt-btn" onclick="selOpt(this,'Rp 57.000',57000)">344 💎</button>
+          <button class="opt-btn" onclick="selOpt(this,'Rp 110.000',110000)">706 💎</button>
+        </div>
+        <div class="product-footer"><div class="product-price">Rp 15.500</div><button class="btn-buy" onclick="addCart(this,'Mobile Legends','🎮')">+ Keranjang</button></div>
+      </div>
+    </div>
+
+    <div class="product-card" data-cat="br" data-name="free fire" data-price="14000" data-promo="1">
+      <div class="product-thumb" style="background:linear-gradient(135deg,#1a0a05,#3a1205)">🔥</div>
+      <div class="product-body">
+        <div class="product-name">Free Fire</div><div class="product-cat">Battle Royale · Garena</div>
+        <div class="product-options">
+          <button class="opt-btn sel" onclick="selOpt(this,'Rp 14.000',14000)">100 💎</button>
+          <button class="opt-btn" onclick="selOpt(this,'Rp 27.500',27500)">210 💎</button>
+          <button class="opt-btn" onclick="selOpt(this,'Rp 55.000',55000)">420 💎</button>
+          <button class="opt-btn" onclick="selOpt(this,'Rp 95.000',95000)">720 💎</button>
+        </div>
+        <div class="product-footer"><div class="product-price">Rp 14.000</div><button class="btn-buy" onclick="addCart(this,'Free Fire','🔥')">+ Keranjang</button></div>
+      </div>
+    </div>
+
+    <div class="product-card" data-cat="br" data-name="pubg mobile" data-price="19000" data-promo="0">
+      <div class="pbadge" style="background:var(--accent3)">⭐ HOT</div>
+      <div class="product-thumb" style="background:linear-gradient(135deg,#051a2a,#0a2a3f)">🔫</div>
+      <div class="product-body">
+        <div class="product-name">PUBG Mobile</div><div class="product-cat">Battle Royale · Krafton</div>
+        <div class="product-options">
+          <button class="opt-btn sel" onclick="selOpt(this,'Rp 19.000',19000)">60 UC</button>
+          <button class="opt-btn" onclick="selOpt(this,'Rp 35.000',35000)">125 UC</button>
+          <button class="opt-btn" onclick="selOpt(this,'Rp 65.000',65000)">260 UC</button>
+          <button class="opt-btn" onclick="selOpt(this,'Rp 120.000',120000)">520 UC</button>
+        </div>
+        <div class="product-footer"><div class="product-price">Rp 19.000</div><button class="btn-buy" onclick="addCart(this,'PUBG Mobile','🔫')">+ Keranjang</button></div>
+      </div>
+    </div>
+
+    <div class="product-card" data-cat="rpg" data-name="genshin impact" data-price="17000" data-promo="0">
+      <div class="product-thumb" style="background:linear-gradient(135deg,#0d1835,#1a2860)">✨</div>
+      <div class="product-body">
+        <div class="product-name">Genshin Impact</div><div class="product-cat">RPG · HoYoverse</div>
+        <div class="product-options">
+          <button class="opt-btn sel" onclick="selOpt(this,'Rp 17.000',17000)">60 Primo</button>
+          <button class="opt-btn" onclick="selOpt(this,'Rp 80.000',80000)">300 Primo</button>
+          <button class="opt-btn" onclick="selOpt(this,'Rp 155.000',155000)">980 Primo</button>
+        </div>
+        <div class="product-footer"><div class="product-price">Rp 17.000</div><button class="btn-buy" onclick="addCart(this,'Genshin Impact','✨')">+ Keranjang</button></div>
+      </div>
+    </div>
+
+    <div class="product-card" data-cat="rpg" data-name="honkai star rail" data-price="17000" data-promo="0">
+      <div class="pbadge" style="background:var(--accent);color:#000">NEW</div>
+      <div class="product-thumb" style="background:linear-gradient(135deg,#0a1535,#152560)">🌟</div>
+      <div class="product-body">
+        <div class="product-name">Honkai: Star Rail</div><div class="product-cat">RPG · HoYoverse</div>
+        <div class="product-options">
+          <button class="opt-btn sel" onclick="selOpt(this,'Rp 17.000',17000)">60 Jade</button>
+          <button class="opt-btn" onclick="selOpt(this,'Rp 82.000',82000)">300 Jade</button>
+          <button class="opt-btn" onclick="selOpt(this,'Rp 790.000',790000)">3280 Jade</button>
+        </div>
+        <div class="product-footer"><div class="product-price">Rp 17.000</div><button class="btn-buy" onclick="addCart(this,'Honkai: Star Rail','🌟')">+ Keranjang</button></div>
+      </div>
+    </div>
+
+    <div class="product-card" data-cat="streaming" data-name="netflix" data-price="35000" data-promo="1">
+      <div class="pbadge" style="background:#e50914">🎬 Premium</div>
+      <div class="product-thumb" style="background:linear-gradient(135deg,#1a0000,#300505)">📺</div>
+      <div class="product-body">
+        <div class="product-name">Netflix</div><div class="product-cat">Streaming · Netflix Inc</div>
+        <div class="product-options">
+          <button class="opt-btn sel" onclick="selOpt(this,'Rp 35.000',35000)">1 Bln</button>
+          <button class="opt-btn" onclick="selOpt(this,'Rp 95.000',95000)">3 Bln</button>
+          <button class="opt-btn" onclick="selOpt(this,'Rp 180.000',180000)">6 Bln</button>
+          <button class="opt-btn" onclick="selOpt(this,'Rp 340.000',340000)">1 Thn</button>
+        </div>
+        <div class="product-footer"><div class="product-price">Rp 35.000</div><button class="btn-buy" onclick="addCart(this,'Netflix','📺')">+ Keranjang</button></div>
+      </div>
+    </div>
+
+    <div class="product-card" data-cat="musik" data-name="spotify premium" data-price="12500" data-promo="0">
+      <div class="product-thumb" style="background:linear-gradient(135deg,#001a08,#003015)">🎵</div>
+      <div class="product-body">
+        <div class="product-name">Spotify Premium</div><div class="product-cat">Musik · Spotify AB</div>
+        <div class="product-options">
+          <button class="opt-btn sel" onclick="selOpt(this,'Rp 12.500',12500)">1 Bln</button>
+          <button class="opt-btn" onclick="selOpt(this,'Rp 35.000',35000)">3 Bln</button>
+          <button class="opt-btn" onclick="selOpt(this,'Rp 65.000',65000)">6 Bln</button>
+          <button class="opt-btn" onclick="selOpt(this,'Rp 120.000',120000)">1 Thn</button>
+        </div>
+        <div class="product-footer"><div class="product-price">Rp 12.500</div><button class="btn-buy" onclick="addCart(this,'Spotify Premium','🎵')">+ Keranjang</button></div>
+      </div>
+    </div>
+
+    <div class="product-card" data-cat="streaming" data-name="youtube premium" data-price="19000" data-promo="0">
+      <div class="product-thumb" style="background:linear-gradient(135deg,#1a0505,#300a0a)">▶️</div>
+      <div class="product-body">
+        <div class="product-name">YouTube Premium</div><div class="product-cat">Streaming · Google</div>
+        <div class="product-options">
+          <button class="opt-btn sel" onclick="selOpt(this,'Rp 19.000',19000)">1 Bln</button>
+          <button class="opt-btn" onclick="selOpt(this,'Rp 55.000',55000)">3 Bln</button>
+          <button class="opt-btn" onclick="selOpt(this,'Rp 100.000',100000)">6 Bln</button>
+        </div>
+        <div class="product-footer"><div class="product-price">Rp 19.000</div><button class="btn-buy" onclick="addCart(this,'YouTube Premium','▶️')">+ Keranjang</button></div>
+      </div>
+    </div>
+
+    <div class="product-card" data-cat="cloud" data-name="google one" data-price="22000" data-promo="0">
+      <div class="product-thumb" style="background:linear-gradient(135deg,#05101a,#0a1a30)">☁️</div>
+      <div class="product-body">
+        <div class="product-name">Google One</div><div class="product-cat">Cloud · Google</div>
+        <div class="product-options">
+          <button class="opt-btn sel" onclick="selOpt(this,'Rp 22.000',22000)">100GB</button>
+          <button class="opt-btn" onclick="selOpt(this,'Rp 35.000',35000)">200GB</button>
+          <button class="opt-btn" onclick="selOpt(this,'Rp 110.000',110000)">2TB</button>
+        </div>
+        <div class="product-footer"><div class="product-price">Rp 22.000</div><button class="btn-buy" onclick="addCart(this,'Google One','☁️')">+ Keranjang</button></div>
+      </div>
+    </div>
+
+    <div class="product-card" data-cat="moba" data-name="league of legends" data-price="18000" data-promo="0">
+      <div class="product-thumb" style="background:linear-gradient(135deg,#0a1020,#10213a)">⚔️</div>
+      <div class="product-body">
+        <div class="product-name">League of Legends</div><div class="product-cat">MOBA · Riot Games</div>
+        <div class="product-options">
+          <button class="opt-btn sel" onclick="selOpt(this,'Rp 18.000',18000)">650 RP</button>
+          <button class="opt-btn" onclick="selOpt(this,'Rp 45.000',45000)">1380 RP</button>
+          <button class="opt-btn" onclick="selOpt(this,'Rp 85.000',85000)">3500 RP</button>
+        </div>
+        <div class="product-footer"><div class="product-price">Rp 18.000</div><button class="btn-buy" onclick="addCart(this,'League of Legends','⚔️')">+ Keranjang</button></div>
+      </div>
+    </div>
+
+    <div class="product-card" data-cat="musik" data-name="joox" data-price="9000" data-promo="0">
+      <div class="product-thumb" style="background:linear-gradient(135deg,#0a001a,#180030)">🎶</div>
+      <div class="product-body">
+        <div class="product-name">Joox VIP</div><div class="product-cat">Musik · Tencent Music</div>
+        <div class="product-options">
+          <button class="opt-btn sel" onclick="selOpt(this,'Rp 9.000',9000)">1 Bln</button>
+          <button class="opt-btn" onclick="selOpt(this,'Rp 25.000',25000)">3 Bln</button>
+          <button class="opt-btn" onclick="selOpt(this,'Rp 45.000',45000)">6 Bln</button>
+        </div>
+        <div class="product-footer"><div class="product-price">Rp 9.000</div><button class="btn-buy" onclick="addCart(this,'Joox VIP','🎶')">+ Keranjang</button></div>
+      </div>
+    </div>
+
+    <div class="product-card" data-cat="sports" data-name="efootball pes" data-price="20000" data-promo="1">
+      <div class="pbadge" style="background:var(--accent3)">⚽ Hot</div>
+      <div class="product-thumb" style="background:linear-gradient(135deg,#051510,#0a2a1a)">⚽</div>
+      <div class="product-body">
+        <div class="product-name">eFootball / PES</div><div class="product-cat">Sports · Konami</div>
+        <div class="product-options">
+          <button class="opt-btn sel" onclick="selOpt(this,'Rp 20.000',20000)">200 Koin</button>
+          <button class="opt-btn" onclick="selOpt(this,'Rp 48.000',48000)">500 Koin</button>
+          <button class="opt-btn" onclick="selOpt(this,'Rp 90.000',90000)">1000 Koin</button>
+        </div>
+        <div class="product-footer"><div class="product-price">Rp 20.000</div><button class="btn-buy" onclick="addCart(this,'eFootball PES','⚽')">+ Keranjang</button></div>
+      </div>
+    </div>
+
+    <div class="no-results" id="noResults">😔 Produk tidak ditemukan.</div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process" id="process">
+  <div class="process-header">
+    <div class="sl">// Cara Kerja</div>
+    <h2 class="st">Top Up <span>4 Langkah</span></h2>
+    <p style="color:var(--muted);margin-top:.6rem;">Proses cepat, mudah, dan aman</p>
+  </div>
+  <div class="steps-grid">
+    <div class="step-card"><div class="step-num">01</div><div class="step-icon">🎯</div><div class="step-title">Pilih Produk</div><p class="step-desc">Cari game atau aplikasi yang ingin kamu top up.</p></div>
+    <div class="step-card"><div class="step-num">02</div><div class="step-icon">🪪</div><div class="step-title">Masukkan ID</div><p class="step-desc">Masukkan ID game atau email akun kamu.</p></div>
+    <div class="step-card"><div class="step-num">03</div><div class="step-icon">💳</div><div class="step-title">Pilih & Bayar</div><p class="step-desc">Pilih dari 100+ metode pembayaran tersedia.</p></div>
+    <div class="step-card"><div class="step-num">04</div><div class="step-icon">⚡</div><div class="step-title">Terima Instan</div><p class="step-desc">Item langsung masuk ke akunmu dalam detik!</p></div>
+  </div>
+</section>
+
+<!-- PAYMENT -->
+<section class="payment">
+  <div class="payment-header">
+    <div class="sl">// Metode Pembayaran</div>
+    <h2 class="st">100+ Metode <span>Pembayaran</span></h2>
+    <p style="color:var(--muted);margin-top:.6rem;">Bayar dengan cara yang paling nyaman</p>
+  </div>
+  <div class="payment-methods">
+    <div class="pay-card"><span>💚</span> GoPay</div>
+    <div class="pay-card"><span>🟣</span> OVO</div>
+    <div class="pay-card"><span>🔵</span> Dana</div>
+    <div class="pay-card"><span>🟠</span> ShopeePay</div>
+    <div class="pay-card"><span>🏦</span> Transfer Bank</div>
+    <div class="pay-card"><span>📱</span> Pulsa</div>
+    <div class="pay-card"><span>💳</span> Kartu Kredit</div>
+    <div class="pay-card"><span>🏪</span> Indomaret</div>
+    <div class="pay-card"><span>🏬</span> Alfamart</div>
+    <div class="pay-card"><span>⚡</span> QRIS</div>
+    <div class="pay-card"><span>🔷</span> LinkAja</div>
+    <div class="pay-card"><span>🏧</span> ATM Bersama</div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="testimonials-header">
+    <div class="sl">// Ulasan Pengguna</div>
+    <h2 class="st">Dipercaya <span>Jutaan Gamer</span></h2>
+  </div>
+  <div class="testi-grid">
+    <div class="testi-card"><div class="stars">★★★★★</div><p class="testi-text">Top up ML langsung masuk dalam 5 detik! Harga paling murah dibanding tempat lain. Pasti balik lagi terus!</p><div class="testi-user"><div class="user-avatar">🧑</div><div><div class="user-name">Rizky A.</div><div class="user-game">Mobile Legends · Jakarta</div></div></div></div>
+    <div class="testi-card"><div class="stars">★★★★★</div><p class="testi-text">Netflix di sini harganya jauh lebih murah, langsung aktif. CS juga fast respon waktu aku tanya-tanya dulu. Recommended!</p><div class="testi-user"><div class="user-avatar">👩</div><div><div class="user-name">Sari W.</div><div class="user-game">Netflix · Surabaya</div></div></div></div>
+    <div class="testi-card"><div class="stars">★★★★★</div><p class="testi-text">Sudah 2 tahun top up di sini, tidak pernah ada masalah. Transaksi selalu lancar dan harga stabil.</p><div class="testi-user"><div class="user-avatar">👨</div><div><div class="user-name">Dimas P.</div><div class="user-game">Free Fire · Bandung</div></div></div></div>
+    <div class="testi-card"><div class="stars">★★★★☆</div><p class="testi-text">Beli Spotify Premium cuma 12 ribu sebulan, padahal harga resminya 54 ribu. Kualitas sama, harga jauh lebih hemat!</p><div class="testi-user"><div class="user-avatar">🧑‍💻</div><div><div class="user-name">Fajar M.</div><div class="user-game">Spotify · Medan</div></div></div></div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="faq-header">
+    <div class="sl">// FAQ</div>
+    <h2 class="st">Pertanyaan <span>Umum</span></h2>
+  </div>
+  <div class="faq-list">
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Berapa lama proses top up berlangsung? <span class="faq-arrow">▼</span></div><div class="faq-a">Proses top up berlangsung otomatis dan biasanya selesai dalam 5–30 detik setelah pembayaran dikonfirmasi. Untuk beberapa produk, maksimal 5 menit.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah top up di sini aman? <span class="faq-arrow">▼</span></div><div class="faq-a">Ya, 100% aman. Kami menggunakan enkripsi SSL dan bekerja sama langsung dengan publisher game resmi. Sudah digunakan oleh 2.5 juta pengguna aktif.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apa yang harus dilakukan jika top up tidak masuk? <span class="faq-arrow">▼</span></div><div class="faq-a">Hubungi customer service kami di WhatsApp atau Live Chat. Tim kami aktif 24/7 dan memiliki kebijakan refund jika terjadi kegagalan sistem.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Metode pembayaran apa saja yang tersedia? <span class="faq-arrow">▼</span></div><div class="faq-a">Kami menerima lebih dari 100 metode: GoPay, OVO, Dana, ShopeePay, QRIS, transfer bank, pulsa, kartu kredit, Indomaret, dan Alfamart.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Apakah ada promo atau diskon? <span class="faq-arrow">▼</span></div><div class="faq-a">Ya! Kami rutin mengadakan promo harian dan event khusus. Member baru mendapat bonus 15% untuk transaksi pertama!</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Bisa top up untuk akun orang lain? <span class="faq-arrow">▼</span></div><div class="faq-a">Tentu bisa! Cukup masukkan ID game atau akun tujuan. Sangat cocok untuk hadiah kepada teman atau keluarga.</div></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-banner">
+  <div class="cta-text">
+    <h2>Bonus 15% untuk Member Baru! 🎁</h2>
+    <p>Daftar gratis & nikmati promo eksklusif untuk semua transaksi pertama kamu.</p>
+  </div>
+  <div class="cta-actions">
+    <button class="btn-primary">Daftar Gratis Sekarang</button>
+    <button class="btn-secondary">Pelajari Lebih Lanjut</button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <span class="logo">NEX<span>TOP</span>UP</span>
+      <p>Platform top up game & aplikasi premium terpercaya di Indonesia. Cepat, aman, harga terjangkau.</p>
+      <div style="display:flex;gap:.5rem;margin-top:1rem;flex-wrap:wrap;">
+        <span style="background:rgba(0,230,118,.08);border:1px solid rgba(0,230,118,.25);color:var(--green);font-size:.72rem;padding:3px 10px;font-weight:600;">✓ SSL Secured</span>
+        <span style="background:rgba(0,245,255,.06);border:1px solid rgba(0,245,255,.2);color:var(--accent);font-size:.72rem;padding:3px 10px;font-weight:600;">⚡ 24/7 Online</span>
+      </div>
+    </div>
+    <div class="footer-col"><h4>Produk</h4><ul><li><a href="#">Mobile Legends</a></li><li><a href="#">Free Fire</a></li><li><a href="#">PUBG Mobile</a></li><li><a href="#">Genshin Impact</a></li><li><a href="#">Netflix</a></li><li><a href="#">Spotify</a></li></ul></div>
+    <div class="footer-col"><h4>Perusahaan</h4><ul><li><a href="#">Tentang Kami</a></li><li><a href="#">Blog</a></li><li><a href="#">Karir</a></li><li><a href="#">Afiliasi</a></li><li><a href="#">Mitra</a></li></ul></div>
+    <div class="footer-col"><h4>Bantuan</h4><ul><li><a href="#">Pusat Bantuan</a></li><li><a href="#">Cek Pesanan</a></li><li><a href="#">Hubungi CS</a></li><li><a href="#">Syarat & Ketentuan</a></li><li><a href="#">Kebijakan Privasi</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 NexTopUp — Hak cipta dilindungi undang-undang.</p>
+    <div class="social-links">
+      <a class="social-btn" href="#">✕</a>
+      <a class="social-btn" href="#">ig</a>
+      <a class="social-btn" href="#">tt</a>
+      <a class="social-btn" href="#">▶</a>
+      <a class="social-btn" href="#">wa</a>
+    </div>
+  </div>
+</footer>
+
+<!-- CART SIDEBAR -->
+<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-header"><h3>🛒 Keranjang</h3><button class="close-btn" onclick="closeCart()">✕</button></div>
+  <div class="cart-items" id="cartItems"><div class="cart-empty"><span class="cei">🛒</span><p>Keranjang kosong.<br>Yuk tambahkan produk!</p></div></div>
+  <div class="cart-footer" id="cartFooter" style="display:none;">
+    <div class="cart-total"><span>Total</span><strong id="cartTotal">Rp 0</strong></div>
+    <button class="btn-checkout" onclick="closeCart();openModal()">Lanjut Checkout →</button>
+  </div>
+</div>
+
+<!-- MODAL CHECKOUT -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal" id="checkoutModal">
+    <div class="modal-header"><h3 id="modalTitle">⚡ Checkout</h3><button class="close-btn" onclick="closeModal()">✕</button></div>
+    <div class="modal-body" id="modalBody">
+      <div class="order-summary">
+        <div style="font-family:'Orbitron';font-size:.7rem;font-weight:700;margin-bottom:.75rem;color:var(--accent);">RINGKASAN PESANAN</div>
+        <div id="orderItems"></div>
+        <div class="order-row total"><span>Total</span><span id="orderTotal">Rp 0</span></div>
+      </div>
+      <div class="form-group"><label>ID Game / Email Akun</label><input type="text" class="form-input" id="gameId" placeholder="Masukkan ID game atau email akun"></div>
+      <div class="form-group"><label>Nomor WhatsApp (Opsional)</label><input type="text" class="form-input" placeholder="08xx-xxxx-xxxx"></div>
+      <div class="form-group">
+        <label>Metode Pembayaran</label>
+        <div class="pay-options">
+          <div class="pay-opt sel" onclick="selPay(this)">💚 GoPay</div>
+          <div class="pay-opt" onclick="selPay(this)">🟣 OVO</div>
+          <div class="pay-opt" onclick="selPay(this)">🔵 Dana</div>
+          <div class="pay-opt" onclick="selPay(this)">⚡ QRIS</div>
+          <div class="pay-opt" onclick="selPay(this)">🏦 Transfer Bank</div>
+          <div class="pay-opt" onclick="selPay(this)">📱 Pulsa</div>
+          <div class="pay-opt" onclick="selPay(this)">🏪 Indomaret</div>
+          <div class="pay-opt" onclick="selPay(this)">💳 Kartu Kredit</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer" id="modalFooter">
+      <button class="btn-secondary" style="flex:1" onclick="closeModal()">Batal</button>
+      <button class="btn-primary" style="flex:2;clip-path:none" onclick="doCheckout()">Bayar Sekarang ⚡</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <div class="toast-icon" id="toastIcon">✅</div>
+  <div class="toast-text"><h5 id="toastTitle">Berhasil!</h5><p id="toastMsg">Item ditambahkan</p></div>
+</div>
+
+<script src="js/script.js"></script>
+</body>
+</html>

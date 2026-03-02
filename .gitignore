@@ -1,0 +1,22 @@
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+npm-debug.log*
+
+# Archive (optional - uncomment if you don't want to commit archive files)
+# archive/
+
+# Temporary files
+*.tmp
+*.temp
