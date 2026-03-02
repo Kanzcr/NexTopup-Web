@@ -79,10 +79,7 @@ function demoLogin(email, pass){
   doLogin();
 }
 
-function doLogin(){
-  console.log('doLogin called!'); // Debug log
-  
-  // Check if elements exist
+async function doLogin(){
   const emailEl = document.getElementById('login-email');
   const passEl = document.getElementById('login-pass');
   
@@ -94,52 +91,83 @@ function doLogin(){
   
   const email = emailEl.value.trim();
   const pass = passEl.value;
-  console.log('Email:', email, 'Pass:', pass); // Debug log
   
   if (!email || !pass) {
     showToast('error', 'Error', 'Email dan password harus diisi');
     return;
   }
   
-  const user = DB.users.find(u=>u.email===email && u.pass===pass);
-  console.log('User found:', user); // Debug log
+  // Show simple loading
+  const btn = document.querySelector('.auth-btn');
+  const originalText = btn.textContent;
+  btn.textContent = 'Loading...';
+  btn.disabled = true;
   
-  if(!user){ 
-    showToast('error','Login Gagal','Email atau password salah'); 
-    return; 
+  try {
+    // Call API
+    const response = await apiPost(API.auth, {
+      action: 'login',
+      email: email,
+      password: pass
+    });
+    
+    btn.textContent = originalText;
+    btn.disabled = false;
+    
+    if(response.success){ 
+      currentUser = response.data;
+      showToast('success', 'Login Berhasil!', `Selamat datang ${currentUser.name}`);
+      setTimeout(() => initApp(), 500);
+    } else {
+      showToast('error','Login Gagal', response.message);
+    }
+  } catch (error) {
+    btn.textContent = originalText;
+    btn.disabled = false;
+    showToast('error','Error', 'Terjadi kesalahan: ' + error.message);
   }
-  
-  currentUser = user;
-  console.log('Login success! Initializing app...');
-  
-  // Show success toast
-  showToast('success', 'Login Berhasil!', `Selamat datang ${user.name}`);
-  
-  // Small delay before initializing app for better UX
-  setTimeout(() => {
-    initApp();
-  }, 500);
 }
 
-function doRegister(){
+async function doRegister(){
   const name = document.getElementById('reg-name').value.trim();
   const email = document.getElementById('reg-email').value.trim();
   const pass = document.getElementById('reg-pass').value;
   const pass2 = document.getElementById('reg-pass2').value;
-  if(!name||!email||!pass){ showToast('error','Error','Semua field harus diisi'); return; }
-  if(pass.length < 6){ showToast('error','Error','Password min. 6 karakter'); return; }
-  if(pass !== pass2){ showToast('error','Error','Password tidak cocok'); return; }
-  if(DB.users.find(u=>u.email===email)){ showToast('error','Error','Email sudah terdaftar'); return; }
-  const newUser = {id:userCounter++, name, email, pass, role:'customer', saldo:25000, joined:new Date().toISOString().slice(0,10), avatar:'🎮'};
-  DB.users.push(newUser);
-  DB.notifications[newUser.id] = [{id:1, icon:'🎁', text:'Selamat datang! Bonus saldo Rp 25.000 telah ditambahkan.', time:'Baru saja', read:false}];
-  showToast('success','Berhasil!','Akun berhasil dibuat. Silakan masuk.');
-  document.getElementById('reg-name').value='';
-  document.getElementById('reg-email').value='';
-  document.getElementById('reg-pass').value='';
-  document.getElementById('reg-pass2').value='';
-  switchAuthTab('login');
-  document.getElementById('login-email').value = email;
+  
+  if(!name||!email||!pass){ 
+    showToast('error','Error','Semua field harus diisi'); 
+    return; 
+  }
+  if(pass.length < 6){ 
+    showToast('error','Error','Password min. 6 karakter'); 
+    return; 
+  }
+  if(pass !== pass2){ 
+    showToast('error','Error','Password tidak cocok'); 
+    return; 
+  }
+  
+  // Call API
+  showLoading('Membuat akun...');
+  const response = await apiPost(API.auth, {
+    action: 'register',
+    name: name,
+    email: email,
+    password: pass
+  });
+  hideLoading();
+  
+  if(response.success){
+    showToast('success','Berhasil!','Akun berhasil dibuat. Silakan masuk.');
+    document.getElementById('reg-name').value='';
+    document.getElementById('reg-email').value='';
+    document.getElementById('reg-pass').value='';
+    document.getElementById('reg-pass2').value='';
+    switchAuthTab('login');
+    document.getElementById('login-email').value = email;
+  } else {
+    showToast('error','Registrasi Gagal', response.message);
+  }
 }
 
 function doLogout(){

@@ -261,19 +261,4 @@ NexTopup-Web/
 ## 📝 Notes
 
 - Aplikasi ini menggunakan **in-memory database** (data hilang saat refresh)
-- Untuk production, perlu integrasi dengan **backend API**
-- QR Code dan VA number adalah **simulasi** untuk demo
-- Payment gateway perlu integrasi dengan provider real (Midtrans, Xendit, dll)
-
----
-
-## 📞 Support
-
-- **Email:** cs@nextopup.id
-- **WhatsApp:** 0812-3456-7890
-- **Website:** https://nextopup.id
-- **GitHub:** https://github.com/Kanzcr/NexTopup-Web
-
----
-
-**Created with ❤️ by NexTopUp Team**
+- Untuk production, perlu inte
