@@ -2,7 +2,8 @@
 //  API CONFIGURATION
 // ═══════════════════════════════════════════════
 
-const API_BASE_URL = 'http://localhost/NexTopup-Web/api';
+// Update this path based on your server setup
+const API_BASE_URL = window.location.origin + '/api';
 
 const API = {
   auth: `${API_BASE_URL}/auth.php`,

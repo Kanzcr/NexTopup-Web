@@ -6,18 +6,38 @@ Platform top up games dan aplikasi premium dengan sistem login, payment gateway,
 ![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 
-## 🚀 Quick Start
+## 🚀 Fitur Utama
 
-```bash
-# Clone repository
-git clone https://github.com/Kanzcr/NexTopup-Web.git
-cd NexTopup-Web
+### 💎 Core Features
+- ✅ Sistem Login & Register
+- ✅ Dashboard Admin & Customer
+- ✅ 8 Metode Pembayaran (E-wallet, QRIS, Bank VA)
+- ✅ Real QR Code Generation
+- ✅ Payment Validation System
+- ✅ Voucher & Promo Code
+- ✅ Transaction History
+- ✅ Digital Receipt (Download/Print)
+- ✅ Customer Support Widget
+- ✅ FAQ Section
+- ✅ Responsive Mobile Design
 
-# Setup database (lihat docs/SETUP.md)
-# Buka public/index.html di browser
-```
+### 🎨 UI/UX
+- Modern glassmorphism design
+- Animated gradient background
+- Smooth page transitions
+- Loading states & skeleton screens
+- Interactive hover effects
+- Ripple button animations
 
-## 📁 Struktur Proyek
+### 📱 Fully Responsive
+- Mobile-first approach
+- Tablet optimization
+- Desktop layout
+- Touch-friendly interface
+
+---
+
+## 📁 Struktur Folder
 
 ```
 NexTopup-Web/
@@ -56,54 +76,95 @@ NexTopup-Web/
 └── LICENSE
 ```
 
+---
+
 ## 🎮 Demo Accounts
 
 ### Admin
 - Email: `admin@nextopup.id`
 - Password: `admin123`
+- Akses: Dashboard, Kelola Pesanan, Produk, User
 
 ### Customer
 - Email: `budi@gmail.com`
 - Password: `user123`
+- Akses: Store, Riwayat Transaksi, Profil
+
+## 🛠️ Cara Menggunakan
+
+### Quick Start
+1. Clone repository
+```bash
+git clone https://github.com/Kanzcr/NexTopup-Web.git
+cd NexTopup-Web
+```
+
+2. Setup database (lihat [SETUP.md](SETUP.md))
+3. Buka `public/index.html` di browser
+4. Login menggunakan demo account
+
+### Login Flow
+1. Buka `public/index.html`
+2. Pilih tab "Masuk" atau "Daftar"
+3. Login dengan demo account atau klik demo button
+4. Auto-redirect ke dashboard sesuai role
+
+---
+
+## 💳 Payment Methods
+
+1. **Saldo NexTopUp** 💰 - No fee
+2. **GoPay** 💚 - No fee, Real QR Code
+3. **OVO** 🟣 - No fee, Real QR Code
+4. **DANA** 🔵 - No fee, Real QR Code
+5. **QRIS** ⚡ - No fee, Universal QR
+6. **BCA VA** 🏦 - Fee Rp 4.000
+7. **Mandiri VA** 🏦 - Fee Rp 4.000
+8. **BNI VA** 🏦 - Fee Rp 4.000
+
+---
+
+## 🎫 Demo Vouchers
+
+- **WELCOME10** - Diskon 10% (min. Rp 50.000)
+- **TOPUP50** - Potongan Rp 5.000 (min. Rp 100.000)
+- **GAME20** - Diskon 20% (min. Rp 75.000)
+
+---
 
 ## 🎨 Tech Stack
 
 - **Frontend:** HTML5, CSS3, Vanilla JavaScript
 - **Backend:** PHP 7.4+
-- **Database:** MySQL 5.7+ / MongoDB
+- **Database:** MySQL 5.7+
+- **Fonts:** Google Fonts (Orbitron, Rajdhani)
 - **Libraries:** QRCode.js v1.5.3
+- **Storage:** LocalStorage API
+- **Design:** Glassmorphism, CSS Animations, Gradients
 
-## 📚 Dokumentasi
+---
 
-📖 **[Documentation Index](DOCUMENTATION_INDEX.md)** - Indeks lengkap semua dokumentasi
+## 📚 Documentation
 
-### Quick Links
-- [Dokumentasi Lengkap](docs/README.md)
-- [Daftar Fitur](docs/FEATURES.md)
-- [Panduan Setup](docs/SETUP.md)
-- [Struktur Folder](docs/STRUCTURE.md)
-- [Deployment Guide](docs/DEPLOYMENT.md)
-- [Migration Guide](MIGRATION_GUIDE.md) - Upgrade dari v1.x
-- [API Documentation](api/README.md)
-- [Panduan Kontribusi](CONTRIBUTING.md)
+- [FEATURES.md](FEATURES.md) - Complete features documentation
+- [SETUP.md](SETUP.md) - Setup guide
+- [API Documentation](api/README.md) - API endpoints
 
-## 💳 Fitur Utama
+---
 
-- ✅ Sistem Login & Register
-- ✅ Dashboard Admin & Customer
-- ✅ 8 Metode Pembayaran (E-wallet, QRIS, Bank VA)
-- ✅ Real QR Code Generation
-- ✅ Payment Validation System
-- ✅ Voucher & Promo Code
-- ✅ Transaction History
-- ✅ Digital Receipt
-- ✅ Responsive Mobile Design
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+---
 
 ## 📄 License
 
-MIT License - see [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](../LICENSE) file for details.
 
-## 📞 Contact
+---
+
+## 📞 Contact & Support
 
 - **GitHub:** [@Kanzcr](https://github.com/Kanzcr)
 - **Repository:** [NexTopup-Web](https://github.com/Kanzcr/NexTopup-Web)

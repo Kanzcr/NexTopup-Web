@@ -1,3 +1,12 @@
+# Dependencies
+node_modules/
+vendor/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
 # IDE
 .vscode/
 .idea/
@@ -13,10 +22,22 @@ desktop.ini
 # Logs
 *.log
 npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-# Archive (optional - uncomment if you don't want to commit archive files)
-# archive/
+# Database
+*.sql.backup
+*.db
 
 # Temporary files
 *.tmp
 *.temp
+.cache/
+
+# Build files
+dist/
+build/
+
+# PHP
+composer.phar
+composer.lock

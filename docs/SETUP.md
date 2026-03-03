@@ -31,14 +31,15 @@
    ```
 
 ### 4. Konfigurasi Frontend
-1. Buka file `js/api-config.js`
-2. Sesuaikan `API_BASE_URL` dengan path project Anda:
+1. Buka file `public/assets/js/api-config.js`
+2. API base URL sudah dikonfigurasi secara otomatis menggunakan `window.location.origin`
+3. Jika perlu custom path, update:
    ```javascript
    const API_BASE_URL = 'http://localhost/NexTopup-Web/api';
    ```
 
 ### 5. Testing
-1. Buka browser: `http://localhost/NexTopup-Web/`
+1. Buka browser: `http://localhost/NexTopup-Web/public/`
 2. Login dengan akun default:
    - **Admin**: 
      - Email: `admin@nextopup.id`
@@ -51,23 +52,25 @@
 
 ```
 NexTopup-Web/
-├── api/                    # Backend PHP
-│   ├── config.php         # Database config
-│   ├── auth.php           # Login & Register
-│   ├── products.php       # Products API
-│   ├── orders.php         # Orders API
-│   ├── users.php          # Users API
-│   └── .htaccess          # CORS & routing
-├── database/              # Database files
-│   ├── mysql-schema.sql   # Database schema
-│   └── seed-data.sql      # Sample data
-├── js/                    # Frontend JavaScript
-│   ├── api-config.js      # API configuration
-│   ├── login-script.js    # Main app logic
-│   ├── features.js        # Additional features
-│   └── payment-handler.js # Payment handling
-├── css/                   # Stylesheets
-└── index.html            # Main page
+├── public/                # Frontend files
+│   ├── index.html        # Main page
+│   ├── store.html        # Store page
+│   ├── setup.php         # Setup wizard
+│   ├── test-api.html     # API testing
+│   └── assets/
+│       ├── css/          # Stylesheets
+│       └── js/           # JavaScript files
+├── api/                  # Backend PHP
+│   ├── config.php       # Database config
+│   ├── auth.php         # Login & Register
+│   ├── products.php     # Products API
+│   ├── orders.php       # Orders API
+│   ├── users.php        # Users API
+│   └── .htaccess        # CORS & routing
+├── database/            # Database files
+│   ├── mysql-schema.sql # Database schema
+│   └── seed-data.sql    # Sample data
+└── docs/                # Documentation
 ```
 
 ## Troubleshooting
@@ -84,12 +87,13 @@ NexTopup-Web/
 
 ### API Error / CORS
 - Pastikan Apache di XAMPP sudah running
-- Cek `API_BASE_URL` di `js/api-config.js`
+- API base URL sudah dikonfigurasi otomatis di `public/assets/js/api-config.js`
 - Pastikan file `.htaccess` ada di folder `api/`
 
 ### 404 Not Found
-- Pastikan path project sesuai dengan `API_BASE_URL`
+- Pastikan path project sesuai (akses via `http://localhost/NexTopup-Web/public/`)
 - Cek mod_rewrite Apache sudah enabled
+- Pastikan struktur folder sudah benar
 
 ## Fitur Utama
 
