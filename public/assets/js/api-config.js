@@ -2,8 +2,16 @@
 //  API CONFIGURATION
 // ═══════════════════════════════════════════════
 
-// Update this path based on your server setup
-const API_BASE_URL = window.location.origin + '/api';
+// Detect if we're in public folder or root
+const currentPath = window.location.pathname;
+const isInPublic = currentPath.includes('/public/');
+
+// Set API base URL accordingly
+const API_BASE_URL = isInPublic 
+  ? window.location.origin + '/NexTopup-Web/api'
+  : window.location.origin + '/api';
+
+console.log('API Base URL:', API_BASE_URL);
 
 const API = {
   auth: `${API_BASE_URL}/auth.php`,

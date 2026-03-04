@@ -39,8 +39,8 @@ if ($result->num_rows == 0) {
     echo "<h2>⚙️ Step 2: Import Database Schema</h2>";
     
     // Try to import schema automatically
-    $schemaFile = __DIR__ . '/database/mysql-schema.sql';
-    $seedFile = __DIR__ . '/database/seed-data.sql';
+    $schemaFile = dirname(__DIR__) . '/database/mysql-schema.sql';
+    $seedFile = dirname(__DIR__) . '/database/seed-data.sql';
     
     if (file_exists($schemaFile)) {
         $sql = file_get_contents($schemaFile);
